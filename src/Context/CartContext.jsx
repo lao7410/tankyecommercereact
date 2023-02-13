@@ -10,23 +10,28 @@ export const CartContextProvider = ({ children }) => {
     const [cartList, setCartList] = useState([])
 
     // isInCart
-
-    const agregarCarrito = (newProducto) => {
-        // VAlidar si está el producto
-        setCartList([
-            ...cartList,
-            newProducto
-        ])
-
+    const isInCart = (id) => {
+        return cartList.some(producto => producto.id === id);
     }
-
+    function agregarCarrito(producto, cantidad) {
+        setCartList(prevCart => {
+            const index = prevCart.findIndex(item => item.id === producto.id);
+            if (index >= 0) {
+                const updatedCart = [...prevCart];
+                updatedCart[index].cantidad += cantidad;
+                return updatedCart;
+            } else {
+                return [...prevCart, {...producto, cantidad}];
+            }
+        });
+    }
     // cantidad total
     const cantidadTotal = () => {
         return cartList.reduce((total, producto) => total + producto.cantidad, 0)
     }
     // precio total 
     const precioTotal = () => {
-        return cartList.reduce((total, producto) => total + producto.precio * producto.cantidad, 0)
+        return cartList.reduce((total, producto) => total + producto.price * producto.cantidad, 0)
     }
 
     // eliminar item por id
@@ -48,6 +53,8 @@ export const CartContextProvider = ({ children }) => {
                 agregarCarrito,
                 vaciarCarrito,
                 eliminarItem,
+                cantidadTotal,
+                precioTotal,
                 eliminarPorId
             }}>
             {children}
