@@ -1,40 +1,55 @@
-import React, { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
-import Loading from "../Spiner/Loading"
-import gFetch from "../utils/gfetch"
+import { useState } from "react"
+import { Link } from "react-router-dom"
+import { useCartContext } from "../../Context/CartContext"
+import ItemCount from "../ItemCount/ItemCount"
 
 
-export const ItemDetail = (productos) => {
-  const [producto, setProducto] = useState({})
-  const [loading, setLoading] = useState(true)
-  const { idCategory, idProduct } = useParams()
+const ItemDetail = ({ producto }) => {
+  //onAdd
+  const [isCount, setIsCount] = useState(true)
+  const [cart, setCart] = useState(false)
+  const {agregarCarrito} = useCartContext()
+  const onAdd = (cant) => {
+    console.log(cant)
+    // agragar al carrito     
+    agregarCarrito({ ...producto, cantidad: cant })
+    setIsCount(false)
+  }
 
-  useEffect(() => {
-    gFetch()
-      .then(res => {
-        setProducto(res.find(productos => productos.id === idProduct))
-
-      })
-      .catch(error => console.log(error))
-      .finally(() => setLoading(false))
-  }, [idProduct])
-
-
+  // console.log(cartList)
+  const handleCart = () => {
+    setCart(!cart)
+  }
   return (
     <div>
-      {loading && <Loading />}
-      <div style={{
-        display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-      }}>
+      <div className="row">
+        <div className="col-6">
+          <img src={producto.image} className='w-50' />
+          <h2>Nombre: {producto.name}</h2>
+          <h4>Categoría {producto.category}</h4>
+          <h4>Precio {producto.price}</h4>
 
-        <h1>{producto.name}</h1>
-        <p>{producto.description}</p>
-        <p>{producto.price}</p>
+        </div>
+        <div className="col-6">
+          <button onClick={handleCart}>carrito</button>
+          {
+            isCount ?
+              <ItemCount initial={1} stock={producto.stock} onAdd={onAdd} />
+              :
+              <>
+                <Link className="btn btn-outline-success" to='/cart'>
+                  Ir a Cart
+                </Link>
+                <Link className="btn btn-outline-primary" to='/'>
+                  Ir a Home
+                </Link>
+              </>
+          }
+        </div>
       </div>
+      <ItemCount onAdd={onAdd} initial={1} stock={producto.stock} />
     </div>
-  );
+  )
 }
 
 export default ItemDetail
