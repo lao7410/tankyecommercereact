@@ -1,37 +1,34 @@
 import { useEffect, useState } from "react"
+import { doc, getDoc, getFirestore } from "firebase/firestore"
 import { useParams } from "react-router-dom"
-import {gFetchOne} from "../utils/gFetch"
 import ItemDetail from "./ItemDetail"
-import Loading from "../Spiner/Loading"
-
 
 const ItemDetailContainer = () => {
-    const [ producto, setProducto ] =  useState({})
-    const { id } = useParams()
-    const [loadinng, setLoading] = useState(true)
-    // console.log(idProducto)
+  const [producto, setProducto] = useState({})
+  const { id } = useParams()
+  const [loading, setLoading] = useState(true)
 
-    useEffect(()=>{        
-        if(id){
-        gFetchOne(id)
-        .then(response => setProducto(response))
-        .catch(error => setProducto(error))
-        }else{
-            gFetchOne()
-            .then(res=>setProducto(res))
-            .catch(error=>console.log(error))
-            .finally(()=>setLoading(false))
+  useEffect(() => {
+    const db = getFirestore()
+    const query = doc(db, 'items', id)
+    getDoc(query)
+      .then((resp) => {
+        if (resp.exists()) {
+          setProducto({ id: resp.id, ...resp.data() })
+        } else {
+          setProducto(false)
         }
-    }, [id])
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false)) // paso la carga del load a false
 
-  // mocks con id 
-    return (
-        <div 
-        // className="border border-5 border-danger  m-3"
-        >        
-            <ItemDetail producto={producto} />
-        </div>
-    )
+  }, [id])
+
+  return (
+    loading
+      ? <h2>Cargando...</h2> //muestra mensaje mientras trae el prod
+      : <ItemDetail producto={producto} />
+  )
 }
 
-export default ItemDetailContainer
+export default ItemDetailContainer;

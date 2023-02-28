@@ -5,7 +5,6 @@ import ItemCount from "../ItemCount/ItemCount"
 
 
 const ItemDetail = ({ producto }) => {
-  //onAdd
   const [isCount, setIsCount] = useState(true)
   const { agregarCarrito } = useCartContext()
   const onAdd = (cant) => {
@@ -49,5 +48,4 @@ const ItemDetail = ({ producto }) => {
     </div>
   )
 }
-
 export default ItemDetail
