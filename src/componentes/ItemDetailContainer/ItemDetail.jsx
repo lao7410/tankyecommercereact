@@ -7,16 +7,11 @@ import ItemCount from "../ItemCount/ItemCount"
 const ItemDetail = ({ producto }) => {
   //onAdd
   const [isCount, setIsCount] = useState(true)
-  const {agregarCarrito} = useCartContext()
+  const { agregarCarrito } = useCartContext()
   const onAdd = (cant) => {
-    console.log(cant)
-    // agragar al carrito     
-    agregarCarrito(producto,cant)
+    agregarCarrito(producto, cant)
     setIsCount(false)
   }
-
-  // console.log(cartList)
-
   return (
     <div>
       <div className="row">
@@ -28,7 +23,7 @@ const ItemDetail = ({ producto }) => {
 
         </div>
         <div className="col-6">
-          
+
           {
             isCount ?
               <ItemCount initial={1} stock={producto.stock} onAdd={onAdd} />
@@ -40,11 +35,17 @@ const ItemDetail = ({ producto }) => {
                 <Link className="btn btn-outline-primary" to='/'>
                   Ir a Home
                 </Link>
+                <Link className="btn btn-outline-primary" to='/category/iphone'>
+                  VOLVER IPHONE
+                </Link>
+                <Link className="btn btn-outline-primary" to='/category/ipad'>
+                  VOLVER IPAD
+                </Link>
               </>
           }
         </div>
       </div>
-      
+
     </div>
   )
 }

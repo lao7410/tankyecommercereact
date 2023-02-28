@@ -1,50 +1,48 @@
 import { useEffect, useState } from "react"
-import { Link, useParams } from "react-router-dom"
+import { getFirestore, getDocs, where, query, collection, orderBy } from 'firebase/firestore'
+import { useParams } from "react-router-dom"
 import { gFetch } from "../utils/gFetch"
 import ItemList from "../ItemList/ItemList"
 
 
 export const ItemListContainer = () => {
-  const [ productos, setProductos ] = useState([])
-  const [ loading, setLoading ] = useState(true)
-
+  const [productos, setProductos] = useState([])
+  const [loading, setLoading] = useState(true)
   const { id } = useParams()
 
-  useEffect(()=>{
+
+  useEffect(() => {
     if (id) {
       gFetch()
-        .then(res => {      
+        .then(res => {
           setProductos(res.filter(producto => producto.category === id))
-          // debe hacer una sola cosa
         })
         .catch(error => console.log(error))
-        .finally(()=> setLoading(false))      
+        .finally(() => setLoading(false))
     } else {
       gFetch()
-        .then(res => {      
+        .then(res => {
           setProductos(res)
-          // debe hacer una sola cosa
         })
         .catch(error => console.log(error))
-        .finally(()=> setLoading(false))
-      
+        .finally(() => setLoading(false))
     }
   }, [id])
 
- 
+
   return (
-        
-            loading 
-            ? 
-                <h2>Cargando...</h2> 
-            : 
-                <div style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    flexWrap: 'wrap'
-                }} >
-                    <ItemList productos={productos} />                    
-                </div>
+
+    loading
+      ?
+      <h2>Cargando...</h2>
+      :
+      <div style={{
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap'
+      }} >
+        <ItemList productos={productos} />
+      </div>
   )
 }
 

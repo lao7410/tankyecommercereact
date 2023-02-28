@@ -1,9 +1,12 @@
-// import imagen from '../../assets/react.svg' 1
+import { useCartContext } from "../../Context/CartContext"
 
 const CartWidget = () => {
+  const {cantidadTotal} = useCartContext ()
+
   return (
     <>
-         <div>🛒{producto.cantidad}</div>
+         <div>🛒   { cantidadTotal() || '' } </div>
+        
     </>
   )
 }
