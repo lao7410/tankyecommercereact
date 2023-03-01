@@ -12,6 +12,13 @@ const CartContainer = () => {
     repetirEmail: ''
   })
 
+  const initialFormData = {
+    name: '',
+    tel: '',
+    email: '',
+    repetirEmail: ''
+  }
+
   const insertOrder = (evt) => {
     evt.preventDefault()
     if (!formData.name || !formData.tel || !formData.email || !formData.repetirEmail) {
@@ -25,26 +32,33 @@ const CartContainer = () => {
     const order = {}
     order.Buyer = formData
     order.items = cartList.map(({ id, name, price }) => ({ id, name, price }))
+    order.isActive = true
     order.total = precioTotal()
 
     const db = getFirestore()
     const ordersCollection = collection(db, 'ordenes')
 
     addDoc(ordersCollection, order)
-      .then(resp => console.log(resp))
-
-    console.log(order)
+      .then(resp => {
+        console.log(resp);
+        alert(`ORDEN DE COMPRA EXITOSA. EL ID EN FIREBASE ES: ${resp.id}`);
+      })
+      .catch(error => console.log(error))
+      .finally(() => {
+        vaciarCarrito();
+        setFormData(initialFormData);
+      });
   }
+
   const handleOnChange = (evt) => {
     console.log(evt.target.name)
     console.log(evt.target.value)
     setFormData({
       ...formData,
       [evt.target.name]: evt.target.value
-
     })
-
   }
+
   return (
     <>
       {cartList.length === 0 ?
@@ -67,7 +81,6 @@ const CartContainer = () => {
                 <p>Cantidad de unidades seleccionadas: {producto.cantidad}</p>
                 <button onClick={() => eliminarItem(producto.id)}>Eliminar</button>
               </div>
-
             ))
           }
           <p>Total a pagar: ${precioTotal()}</p>
@@ -77,10 +90,7 @@ const CartContainer = () => {
             <input type="text" name="email" placeholder="Ingrese Email" onChange={handleOnChange} value={formData.email} /><br />
             <input type="text" name="repetirEmail" placeholder="Ingrese Email nuevamente" onChange={handleOnChange} value={formData.repetirEmail} /><br />
             <button>Generar Orden</button>
-
-
           </form><br /><br />
-
           <button onClick={vaciarCarrito}>Vaciar Carrito</button>
         </div>}
     </>
