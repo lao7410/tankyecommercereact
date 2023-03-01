@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import { useCartContext } from "../../Context/CartContext"
 
 const CartContainer = () => {
-  const { cartList, clearCart, deleteItem, totalPrice,increaseQuantity,decreaseQuantity } = useCartContext()
+  const { cartList, clearCart, deleteItem, totalPrice, quantityUpd } = useCartContext()
   const [formData, setFormData] = useState({
     name: '',
     tel: '',
@@ -31,7 +31,7 @@ const CartContainer = () => {
     }
     const order = {}
     order.Buyer = formData
-    order.items = cartList.map(({ id, name, price }) => ({ id, name, price }))
+    order.items = cartList.map(({ id, name, price, quantity }) => ({ id, name, price, quantity }))
     order.isActive = true
     order.total = totalPrice()
 
@@ -40,14 +40,13 @@ const CartContainer = () => {
 
     addDoc(ordersCollection, order)
       .then(resp => {
-        console.log(resp);
-        alert(`ORDEN DE COMPRA EXITOSA. EL ID EN FIREBASE ES: ${resp.id}`);
+        alert(`ORDEN DE COMPRA EXITOSA. EL ID EN FIREBASE ES: ${resp.id}`)
       })
       .catch(error => console.log(error))
       .finally(() => {
-        clearCart();
-        setFormData(initialFormData);
-      });
+        clearCart()
+        setFormData(initialFormData)
+      })
   }
 
   const handleOnChange = (evt) => {
@@ -77,8 +76,8 @@ const CartContainer = () => {
                 <p>Nombre del producto "{product.name}"</p>
                 <p>Precio Unitario ${product.price},00</p>
                 <p>Cantidad de unidades seleccionadas: {product.quantity}</p>
-                <button onClick={() => increaseQuantity(product.id)}>+</button>
-                <button onClick={() => decreaseQuantity(product.id)}>-</button> <br />
+                <button onClick={() => quantityUpd(product.id, product.quantity + 1)}>+</button>
+                <button onClick={() => quantityUpd(product.id, product.quantity - 1)}>-</button> <br />
                 <button onClick={() => deleteItem(product.id)}>Eliminar</button>
               </div>
             ))

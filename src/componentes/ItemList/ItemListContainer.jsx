@@ -9,20 +9,18 @@ export const ItemListContainer = () => {
   const [loading, setLoading] = useState(true)
   const { id } = useParams()
 
-  // retrieve all products and filter by category if applicable
-  useEffect(() => {
+   useEffect(() => {
     const db = getFirestore()
     const queryCollection = collection(db, 'items')
     const queryFilter = id ? query(queryCollection, where('category', '==', id)) : queryCollection; //ordeno querry para poder filtrar y aplico sugar
 
     getDocs(queryFilter)
       .then(resp => setProducts(resp.docs.map(product => ({ id: product.id, ...product.data() }))))
-      .catch(err => console.log('error fetching products'))
+      .catch(err => console.log('error bajando de fire'))
       .finally(() => setLoading(false))
   }, [id])
 
-  
-  return (
+    return (
     loading ? <Loading /> : (
       products !== null ? <ItemList products={products} /> : <p>Hubo un error al cargar los productos.</p>
     )

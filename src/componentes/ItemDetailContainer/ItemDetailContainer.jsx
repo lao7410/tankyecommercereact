@@ -9,7 +9,6 @@ const ItemDetailContainer = () => {
     const [product, setProduct] = useState({})
     const { id } = useParams()
     const [loading, setLoading] = useState(true)
-
     useEffect(() => {
         const db = getFirestore()
         const query = doc(db, 'items', id)
@@ -23,7 +22,6 @@ const ItemDetailContainer = () => {
             })
             .catch((err) => console.log(err))
             .finally(() => setLoading(false)) // paso la carga del load a false
-
     }, [id])
 
     return (
@@ -31,10 +29,9 @@ const ItemDetailContainer = () => {
             product ? (
                 <ItemDetail product={product} />
             ) : (
-                <Error />
+                <Error /> //llama al error si se cambia la url
             )
         )
     )
 }
-
 export default ItemDetailContainer

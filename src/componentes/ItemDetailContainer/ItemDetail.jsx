@@ -19,10 +19,8 @@ const ItemDetail = ({ product }) => {
           <h2>Nombre: {product.name}</h2>
           <h4>Categoría {product.category}</h4>
           <h4>Precio {product.price}</h4>
-
         </div>
         <div className="col-6">
-
           {
             isCount ?
               <ItemCount initial={1} stock={product.stock} onAdd={onAdd} />
@@ -44,7 +42,6 @@ const ItemDetail = ({ product }) => {
           }
         </div>
       </div>
-
     </div>
   )
 }
