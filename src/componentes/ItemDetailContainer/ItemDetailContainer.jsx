@@ -3,6 +3,7 @@ import { doc, getDoc, getFirestore } from "firebase/firestore"
 import { useParams } from "react-router-dom"
 import ItemDetail from "./ItemDetail"
 import Error from "../Error/error"
+import Loading from "../Spiner/Loading"
 
 const ItemDetailContainer = () => {
     const [product, setProduct] = useState({})
@@ -26,9 +27,7 @@ const ItemDetailContainer = () => {
     }, [id])
 
     return (
-        loading ? (
-            <h2>Cargando...</h2>
-        ) : (
+        loading ? <Loading /> : (
             product ? (
                 <ItemDetail product={product} />
             ) : (
