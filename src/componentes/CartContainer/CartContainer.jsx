@@ -1,14 +1,43 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useState } from 'react';
+import { addDoc, collection, getFirestore } from 'firebase/firestore';
 import { Link } from "react-router-dom"
 import { useCartContext } from "../../Context/CartContext"
 
-
 const CartContainer = () => {
   const { cartList, vaciarCarrito, eliminarItem, precioTotal } = useCartContext()
-  useEffect(() => {
+  const [formData, setFormData] = useState({
+    name: '',
+    tel: '',
+    email: '',
+    repetirEmail: ''
+  })
 
-  }, [cartList])
+  const insertOrder = (evt) => {
+    evt.preventDefault()
+    const order = {}
+    //validar campos del form
+    order.Buyer = formData()
+    order.items = cartList.map(({ id, name, price }) => ({ id, name, price }))
+    order.total = precioTotal()
 
+    const db = getFirestore()
+    const ordersCollection = collection(db, 'ordenes')
+
+    addDoc(ordersCollection, order)
+      .then(resp => console.log(resp))
+
+    console.log(order)
+  }
+  const handleOnChange = (evt) => {
+    console.log(evt.target.name)
+    console.log(evt.target.value)
+    setFormData({
+      ...formData,
+      [evt.target.name]: evt.target.value
+
+    })
+
+  }
   return (
     <>
       {cartList.length === 0 ?
@@ -35,8 +64,17 @@ const CartContainer = () => {
             ))
           }
           <p>Total a pagar: ${precioTotal()}</p>
+          <form onSubmit={insertOrder}>
+            <input type="text" name="name" placeholder="Ingrese nombre" onChange={handleOnChange} value={formData.name} /> <br />
+            <input type="text" name="tel" placeholder="Telefono" onChange={handleOnChange} value={formData.tel} /><br />
+            <input type="text" name="email" placeholder="Ingrese Email" onChange={handleOnChange} value={formData.email} /><br />
+            <input type="text" name="repetirEmail" placeholder="Ingrese Email nuevamente" onChange={handleOnChange} value={formData.repetirEmail} /><br />
+            <button>Generar Orden</button>
 
-          <button onClick={() => vaciarCarrito()}>Vaciar Carrito</button>
+
+          </form><br /><br />
+
+          <button onClick={vaciarCarrito}>Vaciar Carrito</button>
         </div>}
     </>
   );
