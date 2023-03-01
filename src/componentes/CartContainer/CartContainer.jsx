@@ -14,9 +14,16 @@ const CartContainer = () => {
 
   const insertOrder = (evt) => {
     evt.preventDefault()
+    if (!formData.name || !formData.tel || !formData.email || !formData.repetirEmail) {
+      alert('Faltan datos en el form, ingrese devuelta')
+      return
+    }
+    if (formData.email !== formData.repetirEmail) {
+      alert('Los campos del email no son iguales')
+      return
+    }
     const order = {}
-    //validar campos del form
-    order.Buyer = formData()
+    order.Buyer = formData
     order.items = cartList.map(({ id, name, price }) => ({ id, name, price }))
     order.total = precioTotal()
 
