@@ -3,10 +3,6 @@ import { Link, NavLink } from 'react-router-dom';
 import {Nav, Navbar} from 'react-bootstrap';
 import Container from 'react-bootstrap/Container';
 import Cartwidget from '../CartWidget/CartWidget';
-/* import Nav  from 'react-bootstrap/Nav';
-import  Navbar  from 'react-bootstrap/Navbar'; */
-/* import NavDropdown from 'react-bootstrap/NavDropdown'; */
-
 
 const NavBar = () => {
     return (

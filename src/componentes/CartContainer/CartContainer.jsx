@@ -4,7 +4,7 @@ import { Link } from "react-router-dom"
 import { useCartContext } from "../../Context/CartContext"
 
 const CartContainer = () => {
-  const { cartList, vaciarCarrito, eliminarItem, precioTotal } = useCartContext()
+  const { cartList, clearCart, deleteItem, totalPrice,increaseQuantity,decreaseQuantity } = useCartContext()
   const [formData, setFormData] = useState({
     name: '',
     tel: '',
@@ -33,7 +33,7 @@ const CartContainer = () => {
     order.Buyer = formData
     order.items = cartList.map(({ id, name, price }) => ({ id, name, price }))
     order.isActive = true
-    order.total = precioTotal()
+    order.total = totalPrice()
 
     const db = getFirestore()
     const ordersCollection = collection(db, 'ordenes')
@@ -45,14 +45,12 @@ const CartContainer = () => {
       })
       .catch(error => console.log(error))
       .finally(() => {
-        vaciarCarrito();
+        clearCart();
         setFormData(initialFormData);
       });
   }
 
   const handleOnChange = (evt) => {
-    console.log(evt.target.name)
-    console.log(evt.target.value)
     setFormData({
       ...formData,
       [evt.target.name]: evt.target.value
@@ -73,28 +71,30 @@ const CartContainer = () => {
         : <div>
           <h1>Tu Carrito</h1>
           {
-            cartList.map((producto, index) => (
+            cartList.map((product, index) => (
               <div key={index}>
-                <img src={producto.image} style={{ width: '100px', height: '100px' }} />
-                <p>{producto.name}</p>
-                <p>{producto.price}</p>
-                <p>Cantidad de unidades seleccionadas: {producto.cantidad}</p>
-                <button onClick={() => eliminarItem(producto.id)}>Eliminar</button>
+                <img src={product.image} style={{ width: '100px', height: '100px' }} />
+                <p>Nombre del producto "{product.name}"</p>
+                <p>Precio Unitario ${product.price},00</p>
+                <p>Cantidad de unidades seleccionadas: {product.quantity}</p>
+                <button onClick={() => increaseQuantity(product.id)}>+</button>
+                <button onClick={() => decreaseQuantity(product.id)}>-</button> <br />
+                <button onClick={() => deleteItem(product.id)}>Eliminar</button>
               </div>
             ))
           }
-          <p>Total a pagar: ${precioTotal()}</p>
+          <p>Total a pagar: ${totalPrice()}</p>
           <form onSubmit={insertOrder}>
             <input type="text" name="name" placeholder="Ingrese nombre" onChange={handleOnChange} value={formData.name} /> <br />
             <input type="text" name="tel" placeholder="Telefono" onChange={handleOnChange} value={formData.tel} /><br />
             <input type="text" name="email" placeholder="Ingrese Email" onChange={handleOnChange} value={formData.email} /><br />
-            <input type="text" name="repetirEmail" placeholder="Ingrese Email nuevamente" onChange={handleOnChange} value={formData.repetirEmail} /><br />
+            <input type="text" name="repetirEmail" placeholder="Ingrese Email nuevamente" onChange={handleOnChange} value={formData.repetirEmail} /><br /><br />
             <button>Generar Orden</button>
           </form><br /><br />
-          <button onClick={vaciarCarrito}>Vaciar Carrito</button>
+          <button onClick={clearCart}>Vaciar Carrito</button>
         </div>}
     </>
-  );
-};
+  )
+}
 
-export default CartContainer;
+export default CartContainer

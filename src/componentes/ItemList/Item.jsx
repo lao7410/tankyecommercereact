@@ -1,16 +1,16 @@
 import { Link } from "react-router-dom"
 
-const Item = ({producto}) => {
+const Item = ({product}) => {
   return (
     <div className='card w-25 mt-2' >
-                  <Link to={`/item/${producto.id}`}>
+                  <Link to={`/item/${product.id}`}>
                     <div className='card-header'>
-                      Nombre: {producto.name}
+                      Nombre: {product.name}
                     </div>
                     <div className='card-body'>
-                      <img src={producto.image} alt='foto' className="w-100"/>
-                      Categoria: {producto.category}<br/>
-                      Precio: {producto.price}
+                      <img src={product.image} alt='foto' className="w-100"/>
+                      Categoria: {product.category}<br/>
+                      Precio: {product.price}
                     </div>
                     <div className='card-footer'>
                         { <button className="btn btn-outline-primary w-100">Detalle</button> }

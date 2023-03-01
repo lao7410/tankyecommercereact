@@ -4,28 +4,28 @@ import { useCartContext } from "../../Context/CartContext"
 import ItemCount from "../ItemCount/ItemCount"
 
 
-const ItemDetail = ({ producto }) => {
+const ItemDetail = ({ product }) => {
   const [isCount, setIsCount] = useState(true)
-  const { agregarCarrito } = useCartContext()
-  const onAdd = (cant) => {
-    agregarCarrito(producto, cant)
+  const { addToCart } = useCartContext()
+  const onAdd = (quant) => {
+    addToCart(product, quant)
     setIsCount(false)
   }
   return (
     <div>
       <div className="row">
         <div className="col-6">
-          <img src={producto.image} className='w-50' />
-          <h2>Nombre: {producto.name}</h2>
-          <h4>Categoría {producto.category}</h4>
-          <h4>Precio {producto.price}</h4>
+          <img src={product.image} className='w-50' />
+          <h2>Nombre: {product.name}</h2>
+          <h4>Categoría {product.category}</h4>
+          <h4>Precio {product.price}</h4>
 
         </div>
         <div className="col-6">
 
           {
             isCount ?
-              <ItemCount initial={1} stock={producto.stock} onAdd={onAdd} />
+              <ItemCount initial={1} stock={product.stock} onAdd={onAdd} />
               :
               <>
                 <Link className="btn btn-outline-success" to='/cart'>
