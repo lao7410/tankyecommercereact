@@ -3,6 +3,8 @@ import NavBar from './componentes/NavBar/NavBar'
 import {CartContextProvider} from './Context/CartContext'
 import {ItemListContainer} from './componentes/ItemList/ItemListContainer'
 import ItemDetailContainer from './componentes/ItemDetailContainer/ItemDetailContainer'
+import Error from './componentes/Error/error'
+
 import CartContainer from './componentes/CartContainer/CartContainer'
 import SignIn from './componentes/signIn/signIn'
 import 'bootstrap/dist/css/bootstrap.min.css'
@@ -19,8 +21,9 @@ function App() {
           <Route path='/category/:id' element={<ItemListContainer />} />
           <Route path='/item/:id' element={<ItemDetailContainer />} />
           <Route path='/cart' element={<CartContainer />} />
+          <Route path='*' element={<Error />} />
           <Route path='/signin' element={<SignIn/>} />
-          <Route path='*' element={<Navigate to='/' />} />
+          {/* <Route path='*' element={<Navigate to='/error' />} /> */}
         </Routes>
       </CartContextProvider>
     </BrowserRouter>
