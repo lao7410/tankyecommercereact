@@ -16,9 +16,9 @@ const ItemDetail = ({ product }) => {
       <div className="row">
         <div className="col-6">
           <img src={product.image} className='w-50' />
-          <h2>Nombre: {product.name}</h2>
+          <h2>{product.name}</h2>
           <h4>Categoría {product.category}</h4>
-          <h4>Precio {product.price}</h4>
+          <h4>---$ {product.price}-----</h4>
         </div>
         <div className="col-6">
           {
