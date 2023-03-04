@@ -12,6 +12,7 @@ const ItemsOfCart = () => {
                     <p>Nombre del producto "{product.name}"</p>
                     <p>Precio Unitario ${product.price},00</p>
                     <p>Cantidad de unidades seleccionadas: {product.quantity}</p>
+                    <p>Subtotal del item seleccionado: ${product.price * product.quantity} </p>
                     <button onClick={() => quantityUpd(product.id, product.quantity + 1)}>+</button>
                     <button onClick={() => quantityUpd(product.id, product.quantity - 1)}>-</button> <br />
                     <button onClick={() => deleteItem(product.id)}>Eliminar</button>

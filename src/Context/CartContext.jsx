@@ -41,7 +41,7 @@ export const CartContextProvider = ({ children }) => {
         cartList[index].quantity = quantityUpd;
         setCartList([...cartList]);
     }
-
+    
     const clearCart = () => setCartList([])
     return (
         <CartContext.Provider
