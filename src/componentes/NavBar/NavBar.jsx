@@ -14,7 +14,7 @@ const NavBar = () => {
                     <Nav className="me-auto">
                         <NavLink to="/category/ipad" className={({ isActive }) => isActive ? 'btn btn-primary' : 'btn btn-outline-primary'}>IPAD</NavLink>
                         <NavLink to="/category/iphone" className={({ isActive }) => isActive ? 'btn btn-primary' : 'btn btn-outline-primary'}>IPHONE</NavLink>
-
+                        <NavLink to="/category/laptops" className={({ isActive }) => isActive ? 'btn btn-primary' : 'btn btn-outline-primary'}>LAPTOPS</NavLink>
                     </Nav>
                     <Nav className='ms-auto'>
                         <Link to='/cart'> <Cartwidget /> </Link>
