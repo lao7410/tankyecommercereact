@@ -2,7 +2,7 @@ import { Link } from "react-router-dom"
 
 const Item = ({ product }) => {
   return (
-    <div className='card w-25 mt-3' >
+    <div className='card col-6 w-25 mt-2' >
       <Link to={`/item/${product.id}`}>
         <div className='card-header'>
           {product.name}
@@ -16,7 +16,6 @@ const Item = ({ product }) => {
           {<button className="btn btn-outline-primary w-100">Detalle</button>}
         </div>
       </Link>
-
     </div>
   )
 }

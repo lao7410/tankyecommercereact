@@ -21,7 +21,7 @@ const ItemDetailContainer = () => {
                 }
             })
             .catch((err) => console.log(err))
-            .finally(() => setLoading(false)) // paso la carga del load a false
+            .finally(() => setLoading(false))
     }, [id])
 
     return (
@@ -29,7 +29,7 @@ const ItemDetailContainer = () => {
             product ? (
                 <ItemDetail product={product} />
             ) : (
-                <Error /> //llama al error si se cambia la url
+                <Error />
             )
         )
     )

@@ -15,22 +15,25 @@ export const ItemListContainer = () => {
     const queryCollection = collection(db, 'items')
     const queryFilter = id ? query(queryCollection, where('category', '==', id)) : queryCollection
 
-    getDocs(queryFilter)
-      .then(resp => setProducts(resp.docs.map(product => ({ id: product.id, ...product.data() }))))
-      .catch(err => console.log('error bajando de fire'))
-      .finally(() => setLoading(false))
+    try {
+      getDocs(queryFilter)
+        .then(resp => setProducts(resp.docs.map(product => ({ id: product.id, ...product.data() }))))
+        .catch(err => console.log('error bajando de fire'))
+        .finally(() => setLoading(false))
+    } catch (err) {
+      console.log(err)
+      setLoading(false)
+    }
   }, [id])
 
   return (
     loading ? <Loading /> : (
-      (products !== null) ? <ItemList products={products} />
-        :
-        (products.category = 'LAPTOPS') ? <p>Proximamente</p>
-          : (
-            <Error />
-          )
+      (products.length > 0) ? <ItemList products={products} /> :
+        (id === 'laptops') ? <h1>Proximamente....</h1> :
+          <Error />
     )
   )
 }
+
 export default ItemListContainer
 

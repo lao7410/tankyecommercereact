@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { addDoc, collection, getFirestore } from 'firebase/firestore';
+import React, { useState } from 'react'
+import { addDoc, collection, getFirestore } from 'firebase/firestore'
 import { useCartContext } from "../../Context/CartContext"
 
 const FormOfCart = ({ clearCart }) => {

@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext } from "react"
 
 const CartContext = createContext([])
 export const useCartContext = () => useContext(CartContext)
@@ -9,7 +9,7 @@ export const CartContextProvider = ({ children }) => {
     }
     function addToCart(product, quantity) {
         setCartList(prevCart => {
-            const index = prevCart.findIndex(item => item.id === product.id);
+            const index = prevCart.findIndex(item => item.id === product.id)
             if (index >= 0) {
                 const updatedCart = [...prevCart]
                 updatedCart[index].quantity = Math.min(quantity + updatedCart[index].quantity, product.stock)
@@ -35,13 +35,13 @@ export const CartContextProvider = ({ children }) => {
         setCartList(cartList.filter(product => product.id !== id))
     }
     const quantityUpd = (id, newQuantity) => {
-        const index = cartList.findIndex(product => product.id === id);
+        const index = cartList.findIndex(product => product.id === id)
         const maxQuantity = cartList[index].stock;
-        let quantityUpd = Math.min(Math.max(newQuantity, 1), maxQuantity);
+        let quantityUpd = Math.min(Math.max(newQuantity, 1), maxQuantity)
         cartList[index].quantity = quantityUpd;
         setCartList([...cartList]);
     }
-    
+
     const clearCart = () => setCartList([])
     return (
         <CartContext.Provider
